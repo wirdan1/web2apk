@@ -5,30 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AppMaker - Buat Aplikasi Web dengan Mudah</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         :root {
             --primary: #4361ee;
+            --primary-light: #4895ef;
             --secondary: #3a0ca3;
             --accent: #7209b7;
+            --accent-light: #b5179e;
             --light: #f8f9fa;
             --dark: #212529;
+            --dark-alt: #343a40;
             --success: #4cc9f0;
             --warning: #f72585;
             --gray: #6c757d;
             --light-gray: #e9ecef;
+            --card-bg: #ffffff;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #4895ef;
+            --primary-light: #4361ee;
+            --secondary: #560bad;
+            --accent: #b5179e;
+            --accent-light: #7209b7;
+            --light: #121212;
+            --dark: #f8f9fa;
+            --dark-alt: #e9ecef;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #adb5bd;
+            --light-gray: #2d2d2d;
+            --card-bg: #1e1e1e;
+            --text-primary: #f8f9fa;
+            --text-secondary: #e9ecef;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: var(--transition);
         }
         
         body {
-            background-color: #f5f7ff;
-            color: var(--dark);
+            background-color: var(--light);
+            color: var(--text-primary);
             line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
         
         .container {
@@ -43,6 +79,9 @@
             color: white;
             padding: 1.5rem 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .header-content {
@@ -60,7 +99,7 @@
         }
         
         .logo i {
-            color: var(--accent);
+            color: var(--accent-light);
         }
         
         nav ul {
@@ -73,52 +112,120 @@
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-light);
+            transition: var(--transition);
         }
         
         nav a:hover {
-            color: var(--accent);
+            color: var(--accent-light);
+        }
+        
+        nav a:hover:after {
+            width: 100%;
+        }
+        
+        .theme-switch {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+        }
+        
+        .theme-switch:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
         
         .hero {
-            padding: 4rem 0;
+            padding: 6rem 0;
             text-align: center;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 400"><rect fill="%234361ee" width="800" height="400"/><path fill="%233a0ca3" fill-opacity="0.2" d="M0 192L26.7 202.7C53.3 213 107 235 160 234.7C213.3 235 267 213 320 197.3C373.3 181 427 171 480 186.7C533.3 203 587 245 640 250.7C693.3 256 747 224 773.3 208L800 192L800 401L773.3 401C746.7 401 693 401 640 401C586.7 401 533 401 480 401C426.7 401 373 401 320 401C266.7 401 213 401 160 401C106.7 401 53 401 27 401L0 401Z"></path></svg>') no-repeat bottom;
-            background-size: cover;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,138.7C1248,139,1344,117,1392,106.7L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
         }
         
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 1.2;
         }
         
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             max-width: 700px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 3rem;
+            font-weight: 300;
         }
         
         .btn {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
+            padding: 1rem 2rem;
             background: var(--accent);
             color: white;
             border: none;
             border-radius: 50px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-            background: var(--secondary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: var(--accent-light);
+        }
+        
+        .btn:hover:after {
+            left: 100%;
         }
         
         .btn-outline {
@@ -133,44 +240,50 @@
         }
         
         .app-form {
-            background: white;
-            border-radius: 15px;
-            padding: 2.5rem;
-            margin: -50px auto 3rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            max-width: 900px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: -80px auto 5rem;
+            box-shadow: var(--shadow);
+            max-width: 1000px;
+            position: relative;
+            z-index: 3;
         }
         
         .form-title {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             color: var(--primary);
+            font-size: 2.2rem;
         }
         
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 2rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text-primary);
+            font-size: 1.1rem;
         }
         
         .form-control {
             width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--light-gray);
-            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
             font-size: 1rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            background: var(--card-bg);
+            color: var(--text-primary);
         }
         
         .form-control:focus {
@@ -186,10 +299,10 @@
         }
         
         .color-picker {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 0;
             cursor: pointer;
         }
@@ -197,21 +310,22 @@
         .file-upload {
             position: relative;
             border: 2px dashed var(--light-gray);
-            border-radius: 8px;
-            padding: 1.5rem;
+            border-radius: 12px;
+            padding: 2rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
         
         .file-upload:hover {
             border-color: var(--primary);
+            transform: translateY(-3px);
         }
         
         .file-upload i {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--gray);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
         
         .file-upload input {
@@ -227,14 +341,15 @@
         .preview {
             display: flex;
             justify-content: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
         
         .preview img {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 10px;
+            max-width: 120px;
+            max-height: 120px;
+            border-radius: 15px;
             object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .full-width {
@@ -243,88 +358,99 @@
         
         .submit-btn {
             width: 100%;
-            padding: 1rem;
-            font-size: 1.1rem;
-            margin-top: 1rem;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
         }
         
         .features {
-            padding: 4rem 0;
-            background: white;
+            padding: 6rem 0;
+            background: var(--light);
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             color: var(--primary);
+            font-size: 2.5rem;
         }
         
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
         }
         
         .feature-card {
-            background: var(--light);
-            border-radius: 12px;
-            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         
         .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: var(--primary);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            border-radius: 50%;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            margin: 0 auto 1.5rem;
+            font-size: 2.2rem;
+            margin: 0 auto 2rem;
+            transform: rotate(0deg);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotate(10deg);
         }
         
         .feature-card h3 {
-            margin-bottom: 1rem;
-            color: var(--secondary);
+            margin-bottom: 1.2rem;
+            color: var(--primary);
+            font-size: 1.5rem;
         }
         
         .progress-container {
             display: none;
-            margin-top: 2rem;
+            margin-top: 3rem;
             text-align: center;
         }
         
         .progress-bar {
-            height: 10px;
+            height: 12px;
             background: var(--light-gray);
-            border-radius: 5px;
-            margin-bottom: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
             overflow: hidden;
         }
         
         .progress {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 5px;
+            border-radius: 10px;
             width: 0%;
             transition: width 0.5s ease;
         }
         
         .result {
             display: none;
-            margin-top: 2rem;
-            padding: 2rem;
-            background: var(--light);
-            border-radius: 12px;
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: var(--card-bg);
+            border-radius: 20px;
             text-align: center;
+            box-shadow: var(--shadow);
         }
         
         .result.success {
@@ -336,47 +462,85 @@
         }
         
         .download-btn {
-            margin-top: 1rem;
+            margin: 1rem 0.5rem;
+            padding: 0.8rem 1.5rem;
             background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            background: var(--primary);
+        }
+        
+        .key-info {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        
+        .key-info h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .key-info p {
+            margin-bottom: 0.5rem;
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.5rem;
+            border-radius: 5px;
+            word-break: break-all;
         }
         
         footer {
-            background: var(--dark);
+            background: var(--dark-alt);
             color: white;
-            padding: 3rem 0 2rem;
+            padding: 4rem 0 2rem;
         }
         
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 3rem;
         }
         
         .footer-section h3 {
-            margin-bottom: 1.5rem;
-            color: var(--accent);
+            margin-bottom: 1.8rem;
+            color: var(--accent-light);
+            font-size: 1.5rem;
         }
         
         .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
         }
         
         .social-links a {
             color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
+            font-size: 1.8rem;
+            transition: var(--transition);
         }
         
         .social-links a:hover {
-            color: var(--accent);
+            color: var(--accent-light);
+            transform: translateY(-5px);
         }
         
         .copyright {
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
@@ -386,18 +550,44 @@
             }
             
             .hero h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             .header-content {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 1.2rem;
             }
             
             nav ul {
-                gap: 1rem;
+                gap: 1.2rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .btn {
+                display: block;
+                margin: 1rem auto;
+                width: 80%;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
             }
         }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animated {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
     </style>
 </head>
 <body>
@@ -415,16 +605,19 @@
                         <li><a href="#about">Tentang</a></li>
                     </ul>
                 </nav>
+                <div class="theme-switch" id="themeSwitch">
+                    <i class="fas fa-moon"></i>
+                </div>
             </div>
         </div>
     </header>
 
     <section class="hero">
-        <div class="container">
-            <h1>Buat Aplikasi Web Anda dengan Mudah</h1>
-            <p>Ubah website menjadi aplikasi Android dalam hitungan menit tanpa coding. Gratis dan mudah digunakan.</p>
-            <a href="#create" class="btn">Buat Sekarang</a>
-            <a href="#features" class="btn btn-outline">Pelajari Lebih Lanjut</a>
+        <div class="container hero-content">
+            <h1 class="animated">Buat Aplikasi Web Anda dengan Mudah</h1>
+            <p class="animated delay-1">Ubah website menjadi aplikasi Android dalam hitungan menit tanpa coding. Gratis dan mudah digunakan.</p>
+            <a href="#create" class="btn animated delay-2">Buat Sekarang</a>
+            <a href="#features" class="btn btn-outline animated delay-3">Pelajari Lebih Lanjut</a>
         </div>
     </section>
 
@@ -598,19 +791,147 @@
                 
                 <div class="footer-section">
                     <h3>Kontak</h3>
-                    <p><i class="fas fa-envelope"></i> info@appmaker.com</p>
-                    <p><i class="fab fa-whatsapp"></i> +62 812 3456 7890</p>
+                    <p><i class="fas fa-envelope"></i> devhookrest@gmaio.com</p>
+                    <p><i class="fab fa-whatsapp"></i> +62 821 6743 6729</p>
                 </div>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2023 AppMaker. All rights reserved.</p>
+                <p>&copy; 2025 AppMaker. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Konfigurasi API AppMaker
+        const appmakerAPI = {
+            baseURL: 'https://standalone-app-api.appmaker.xyz/webapp',
+            defaultHeaders: {
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Mobile Safari/537.36',
+                'Accept': 'application/json, text/plain, */*',
+                'Accept-Encoding': 'gzip, deflate, br, zstd',
+                'sec-ch-ua-platform': '"Android"',
+                'sec-ch-ua': '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"',
+                'dnt': '1',
+                'sec-ch-ua-mobile': '?1',
+                'origin': 'https://create.appmaker.xyz',
+                'sec-fetch-site': 'same-site',
+                'sec-fetch-mode': 'cors',
+                'sec-fetch-dest': 'empty',
+                'referer': 'https://create.appmaker.xyz/',
+                'accept-language': 'id,en-US;q=0.9,en;q=0.8,ja;q=0.7',
+                'priority': 'u=1, i'
+            },
+            
+            // Fungsi untuk membuat aplikasi
+            async createApp(url, email) {
+                try {
+                    const data = JSON.stringify({ url, email });
+                    const response = await axios.post(`${this.baseURL}/build`, data, {
+                        headers: {
+                            ...this.defaultHeaders,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    return response.data;
+                } catch (error) {
+                    console.error('Error creating app:', error);
+                    throw error;
+                }
+            },
+            
+            // Fungsi untuk mengupload file
+            async uploadFile(file, appId) {
+                try {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('id', appId);
+                    
+                    const response = await axios.post(`${this.baseURL}/build/file-upload`, formData, {
+                        headers: {
+                            ...this.defaultHeaders
+                        }
+                    });
+                    return response.data;
+                } catch (error) {
+                    console.error('Error uploading file:', error);
+                    throw error;
+                }
+            },
+            
+            // Fungsi untuk memulai build aplikasi
+            async buildApp(appConfig) {
+                try {
+                    const data = JSON.stringify(appConfig);
+                    const response = await axios.post(`${this.baseURL}/build/build`, data, {
+                        headers: {
+                            ...this.defaultHeaders,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    return response.data;
+                } catch (error) {
+                    console.error('Error building app:', error);
+                    throw error;
+                }
+            },
+            
+            // Fungsi untuk memeriksa status build
+            async checkStatus(appId) {
+                try {
+                    const response = await axios.get(`${this.baseURL}/build/status?appId=${appId}`, {
+                        headers: {
+                            ...this.defaultHeaders,
+                            'if-none-match': 'W/"16f-VVclKRvUNSgEIOI1Ys1wn2XnTxM"'
+                        }
+                    });
+                    return response.data;
+                } catch (error) {
+                    console.error('Error checking status:', error);
+                    throw error;
+                }
+            },
+            
+            // Fungsi untuk mendapatkan URL download
+            async getDownloadUrl(appId) {
+                try {
+                    const response = await axios.get(`${this.baseURL}/complete/download?appId=${appId}`, {
+                        headers: this.defaultHeaders
+                    });
+                    return response.data;
+                } catch (error) {
+                    console.error('Error getting download URL:', error);
+                    throw error;
+                }
+            }
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Theme switcher
+            const themeSwitch = document.getElementById('themeSwitch');
+            const themeIcon = themeSwitch.querySelector('i');
+            
+            // Check for saved theme preference or respect OS preference
+            if (localStorage.getItem('theme') === 'dark' || 
+                (window.matchMedia('(prefers-color-scheme: dark)').matches && !localStorage.getItem('theme'))) {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+            
+            themeSwitch.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    localStorage.setItem('theme', 'dark');
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                } else {
+                    localStorage.setItem('theme', 'light');
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                }
+            });
+            
             // Color picker synchronization
             const toolbarColor = document.getElementById('toolbarColor');
             const toolbarColorText = document.getElementById('toolbarColorText');
@@ -670,49 +991,172 @@
             const progressText = document.getElementById('progressText');
             const result = document.getElementById('result');
             
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 // Show progress
                 progressContainer.style.display = 'block';
                 result.style.display = 'none';
                 
-                // Simulate progress (in a real app, this would be replaced with actual API calls)
-                let width = 0;
-                const interval = setInterval(() => {
-                    width += 5;
-                    progress.style.width = width + '%';
+                // Get form values
+                const url = document.getElementById('url').value;
+                const email = document.getElementById('email').value;
+                const appName = document.getElementById('appName').value;
+                const packageName = document.getElementById('packageName').value;
+                const toolbarColor = document.getElementById('toolbarColor').value;
+                const toolbarTitleColor = document.getElementById('toolbarTitleColor').value;
+                const enableShowToolBar = document.getElementById('enableShowToolBar').checked;
+                const appIconFile = document.getElementById('appIcon').files[0];
+                const splashIconFile = document.getElementById('splashIcon').files[0];
+                
+                try {
+                    // Step 1: Create app
+                    progress.style.width = '10%';
+                    progressText.textContent = 'Membuat aplikasi...';
                     
-                    if (width === 20) progressText.textContent = 'Mengupload icon aplikasi...';
-                    if (width === 40) progressText.textContent = 'Mengupload splash screen...';
-                    if (width === 60) progressText.textContent = 'Membangun aplikasi...';
-                    if (width === 80) progressText.textContent = 'Menyelesaikan proses...';
+                    const createResult = await appmakerAPI.createApp(url, email);
+                    const appId = createResult.body.appId;
                     
-                    if (width >= 100) {
-                        clearInterval(interval);
-                        progressText.textContent = 'Selesai!';
+                    // Step 2: Upload app icon
+                    progress.style.width = '30%';
+                    progressText.textContent = 'Mengupload icon aplikasi...';
+                    
+                    const iconUpload = await appmakerAPI.uploadFile(appIconFile, appId);
+                    const appIconUrl = iconUpload.cloudStoragePublicUrl;
+                    
+                    // Step 3: Upload splash icon
+                    progress.style.width = '50%';
+                    progressText.textContent = 'Mengupload splash screen...';
+                    
+                    const splashUpload = await appmakerAPI.uploadFile(splashIconFile, appId);
+                    const splashIconUrl = splashUpload.cloudStoragePublicUrl;
+                    
+                    // Step 4: Build app
+                    progress.style.width = '70%';
+                    progressText.textContent = 'Membangun aplikasi...';
+                    
+                    const appConfig = {
+                        appId: appId,
+                        appIcon: appIconUrl,
+                        appName: appName,
+                        isPaymentInProgress: false,
+                        enableShowToolBar: enableShowToolBar,
+                        toolbarColor: toolbarColor,
+                        toolbarTitleColor: toolbarTitleColor,
+                        splashIcon: splashIconUrl,
+                        packageName: packageName
+                    };
+                    
+                    const buildResult = await appmakerAPI.buildApp(appConfig);
+                    
+                    // Step 5: Check build status
+                    progress.style.width = '80%';
+                    progressText.textContent = 'Memeriksa status build...';
+                    
+                    let status;
+                    let attempts = 0;
+                    const maxAttempts = 30;
+                    
+                    do {
+                        await new Promise(resolve => setTimeout(resolve, 10000));
+                        status = await appmakerAPI.checkStatus(appId);
+                        attempts++;
                         
-                        // Show success result
-                        setTimeout(() => {
-                            result.className = 'result success';
-                            result.innerHTML = `
-                                <h3>Aplikasi Berhasil Dibuat!</h3>
-                                <p>Aplikasi Anda telah berhasil dibuat dan siap untuk diunduh.</p>
-                                <div style="margin-top: 1rem;">
-                                    <button class="btn download-btn"><i class="fas fa-download"></i> Download APK</button>
-                                    <button class="btn download-btn" style="background: var(--accent);"><i class="fas fa-download"></i> Download AAB</button>
-                                </div>
-                                <p style="margin-top: 1rem; font-size: 0.9rem;">Simpan informasi keystore dengan aman untuk update aplikasi di masa depan.</p>
-                            `;
-                            result.style.display = 'block';
-                            
-                            // Scroll to result
-                            result.scrollIntoView({ behavior: 'smooth' });
-                        }, 1000);
+                        progress.style.width = 80 + (attempts * 0.66) + '%';
+                        progressText.textContent = `Memeriksa status build... (${attempts}/${maxAttempts})`;
+                        
+                        if (status.body.status === 'success') {
+                            break;
+                        } else if (status.body.status === 'failed') {
+                            throw new Error('App build failed');
+                        }
+                    } while (attempts < maxAttempts && status.body.status !== 'success');
+                    
+                    if (attempts >= maxAttempts) {
+                        throw new Error('Build timeout - exceeded maximum wait time');
                     }
-                }, 200);
+                    
+                    // Step 6: Get download info
+                    progress.style.width = '95%';
+                    progressText.textContent = 'Mendapatkan informasi download...';
+                    
+                    const downloadInfo = await appmakerAPI.getDownloadUrl(appId);
+                    
+                    // Step 7: Show success
+                    progress.style.width = '100%';
+                    progressText.textContent = 'Selesai!';
+                    
+                    setTimeout(() => {
+                        result.className = 'result success';
+                        result.innerHTML = `
+                            <h3>Aplikasi Berhasil Dibuat!</h3>
+                            <p>Aplikasi "${downloadInfo.body.appName}" telah berhasil dibuat dan siap untuk diunduh.</p>
+                            
+                            <div class="key-info">
+                                <h4>Informasi Keystore (Simpan dengan Aman):</h4>
+                                <p><strong>Store Password:</strong> ${downloadInfo.body.storePass}</p>
+                                <p><strong>Key Password:</strong> ${downloadInfo.body.keyPass}</p>
+                                <p><strong>Key SHA:</strong> ${downloadInfo.body.keySha}</p>
+                            </div>
+                            
+                            <div style="margin-top: 1.5rem;">
+                                <button class="download-btn" onclick="downloadFile('${downloadInfo.body.buildFile}', '${downloadInfo.body.appName}.apk')">
+                                    <i class="fas fa-download"></i> Download APK
+                                </button>
+                                <button class="download-btn" onclick="downloadFile('${downloadInfo.body.aabFile}', '${downloadInfo.body.appName}.aab')" style="background: var(--accent);">
+                                    <i class="fas fa-download"></i> Download AAB
+                                </button>
+                                <button class="download-btn" onclick="downloadFile('${downloadInfo.body.keyFile}', '${downloadInfo.body.appName}.jks')" style="background: var(--warning);">
+                                    <i class="fas fa-key"></i> Download Key
+                                </button>
+                            </div>
+                            <p style="margin-top: 1.5rem; font-size: 0.9rem;">
+                                Simpan informasi keystore dengan aman untuk update aplikasi di masa depan.
+                            </p>
+                        `;
+                        result.style.display = 'block';
+                        
+                        // Scroll to result
+                        result.scrollIntoView({ behavior: 'smooth' });
+                    }, 1000);
+                    
+                } catch (error) {
+                    console.error('Error in app creation:', error);
+                    progressContainer.style.display = 'none';
+                    
+                    result.className = 'result error';
+                    result.innerHTML = `
+                        <h3>Terjadi Kesalahan</h3>
+                        <p>${error.message || 'Proses pembuatan aplikasi gagal. Silakan coba lagi.'}</p>
+                        <button class="btn" onclick="location.reload()" style="margin-top: 1rem;">Coba Lagi</button>
+                    `;
+                    result.style.display = 'block';
+                }
             });
+            
+            // Initialize animations
+            const animatedElements = document.querySelectorAll('.animated');
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+            });
+            
+            setTimeout(() => {
+                animatedElements.forEach(el => {
+                    el.style.opacity = '1';
+                });
+            }, 100);
         });
+        
+        // Download function
+        function downloadFile(url, filename) {
+            // Create a temporary link for download
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>
