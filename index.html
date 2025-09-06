@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppMaker - Buat Aplikasi Web dengan Mudah</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--accent);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--accent);
+        }
+        
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 400"><rect fill="%234361ee" width="800" height="400"/><path fill="%233a0ca3" fill-opacity="0.2" d="M0 192L26.7 202.7C53.3 213 107 235 160 234.7C213.3 235 267 213 320 197.3C373.3 181 427 171 480 186.7C533.3 203 587 245 640 250.7C693.3 256 747 224 773.3 208L800 192L800 401L773.3 401C746.7 401 693 401 640 401C586.7 401 533 401 480 401C426.7 401 373 401 320 401C266.7 401 213 401 160 401C106.7 401 53 401 27 401L0 401Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            background: var(--secondary);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            margin-left: 1rem;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .app-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            margin: -50px auto 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 900px;
+        }
+        
+        .form-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .color-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            padding: 0;
+            cursor: pointer;
+        }
+        
+        .file-upload {
+            position: relative;
+            border: 2px dashed var(--light-gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-upload:hover {
+            border-color: var(--primary);
+        }
+        
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-upload input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .preview {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .preview img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        
+        .features {
+            padding: 4rem 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .progress-container {
+            display: none;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--light-gray);
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .result {
+            display: none;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .result.success {
+            border-left: 5px solid var(--success);
+        }
+        
+        .result.error {
+            border-left: 5px solid var(--warning);
+        }
+        
+        .download-btn {
+            margin-top: 1rem;
+            background: var(--success);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>AppMaker</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#create">Buat App</a></li>
+                        <li><a href="#features">Fitur</a></li>
+                        <li><a href="#about">Tentang</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Buat Aplikasi Web Anda dengan Mudah</h1>
+            <p>Ubah website menjadi aplikasi Android dalam hitungan menit tanpa coding. Gratis dan mudah digunakan.</p>
+            <a href="#create" class="btn">Buat Sekarang</a>
+            <a href="#features" class="btn btn-outline">Pelajari Lebih Lanjut</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <section id="create" class="app-form">
+            <h2 class="form-title">Buat Aplikasi Baru</h2>
+            <form id="appForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="url">URL Website</label>
+                        <input type="url" class="form-control" id="url" placeholder="https://website-anda.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="email@anda.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appName">Nama Aplikasi</label>
+                        <input type="text" class="form-control" id="appName" placeholder="Nama Aplikasi Saya" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="packageName">Nama Package (com.nama.aplikasi)</label>
+                        <input type="text" class="form-control" id="packageName" placeholder="com.nama.aplikasi" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Warna Toolbar</label>
+                        <div class="color-group">
+                            <input type="color" class="color-picker" id="toolbarColor" value="#03A9F4">
+                            <input type="text" class="form-control" id="toolbarColorText" value="#03A9F4">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Warna Judul Toolbar</label>
+                        <div class="color-group">
+                            <input type="color" class="color-picker" id="toolbarTitleColor" value="#FFFFFF">
+                            <input type="text" class="form-control" id="toolbarTitleColorText" value="#FFFFFF">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appIcon">Icon Aplikasi (PNG, max 500KB)</label>
+                        <div class="file-upload" id="appIconUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Klik untuk upload icon aplikasi</p>
+                            <input type="file" id="appIcon" accept="image/png" required>
+                        </div>
+                        <div class="preview">
+                            <img id="appIconPreview" src="#" alt="Preview Icon" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="splashIcon">Splash Screen Icon (PNG, max 500KB)</label>
+                        <div class="file-upload" id="splashIconUpload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Klik untuk upload splash screen</p>
+                            <input type="file" id="splashIcon" accept="image/png" required>
+                        </div>
+                        <div class="preview">
+                            <img id="splashIconPreview" src="#" alt="Preview Splash" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="enableShowToolBar" checked>
+                            <span class="checkmark"></span>
+                            Tampilkan Toolbar
+                        </label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn submit-btn">Buat Aplikasi Sekarang</button>
+            </form>
+            
+            <div id="progressContainer" class="progress-container">
+                <h3>Membuat aplikasi...</h3>
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <p id="progressText">Mempersiapkan...</p>
+            </div>
+            
+            <div id="result" class="result"></div>
+        </section>
+    </div>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Fitur Unggulan</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Proses Cepat</h3>
+                    <p>Ubah website menjadi aplikasi Android hanya dalam hitungan menit tanpa proses yang rumit.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Kustomisasi Mudah</h3>
+                    <p>Atur icon, warna, dan tampilan aplikasi sesuai dengan brand Anda dengan mudah.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Responsif</h3>
+                    <p>Aplikasi yang dihasilkan akan bekerja dengan baik di semua perangkat Android.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h3>Download Langsung</h3>
+                    <p>Dapatkan file APK dan AAB langsung untuk diinstall atau upload ke Play Store.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Keamanan Terjamin</h3>
+                    <p>Semua data dan proses pembuatan aplikasi dilakukan dengan aman dan terenkripsi.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Tanpa Coding</h3>
+                    <p>Tidak perlu pengetahuan teknis atau coding untuk membuat aplikasi Android.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>AppMaker</h3>
+                    <p>Platform mudah untuk mengubah website menjadi aplikasi Android tanpa coding.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Link Cepat</h3>
+                    <ul>
+                        <li><a href="#create">Buat App</a></li>
+                        <li><a href="#features">Fitur</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Kontak</h3>
+                    <p><i class="fas fa-envelope"></i> info@appmaker.com</p>
+                    <p><i class="fab fa-whatsapp"></i> +62 812 3456 7890</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 AppMaker. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Color picker synchronization
+            const toolbarColor = document.getElementById('toolbarColor');
+            const toolbarColorText = document.getElementById('toolbarColorText');
+            const toolbarTitleColor = document.getElementById('toolbarTitleColor');
+            const toolbarTitleColorText = document.getElementById('toolbarTitleColorText');
+            
+            toolbarColor.addEventListener('input', function() {
+                toolbarColorText.value = this.value;
+            });
+            
+            toolbarColorText.addEventListener('input', function() {
+                toolbarColor.value = this.value;
+            });
+            
+            toolbarTitleColor.addEventListener('input', function() {
+                toolbarTitleColorText.value = this.value;
+            });
+            
+            toolbarTitleColorText.addEventListener('input', function() {
+                toolbarTitleColor.value = this.value;
+            });
+            
+            // File upload preview
+            const appIcon = document.getElementById('appIcon');
+            const appIconPreview = document.getElementById('appIconPreview');
+            const splashIcon = document.getElementById('splashIcon');
+            const splashIconPreview = document.getElementById('splashIconPreview');
+            
+            appIcon.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        appIconPreview.src = e.target.result;
+                        appIconPreview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            splashIcon.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        splashIconPreview.src = e.target.result;
+                        splashIconPreview.style.display = 'block';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Form submission
+            const form = document.getElementById('appForm');
+            const progressContainer = document.getElementById('progressContainer');
+            const progress = document.getElementById('progress');
+            const progressText = document.getElementById('progressText');
+            const result = document.getElementById('result');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show progress
+                progressContainer.style.display = 'block';
+                result.style.display = 'none';
+                
+                // Simulate progress (in a real app, this would be replaced with actual API calls)
+                let width = 0;
+                const interval = setInterval(() => {
+                    width += 5;
+                    progress.style.width = width + '%';
+                    
+                    if (width === 20) progressText.textContent = 'Mengupload icon aplikasi...';
+                    if (width === 40) progressText.textContent = 'Mengupload splash screen...';
+                    if (width === 60) progressText.textContent = 'Membangun aplikasi...';
+                    if (width === 80) progressText.textContent = 'Menyelesaikan proses...';
+                    
+                    if (width >= 100) {
+                        clearInterval(interval);
+                        progressText.textContent = 'Selesai!';
+                        
+                        // Show success result
+                        setTimeout(() => {
+                            result.className = 'result success';
+                            result.innerHTML = `
+                                <h3>Aplikasi Berhasil Dibuat!</h3>
+                                <p>Aplikasi Anda telah berhasil dibuat dan siap untuk diunduh.</p>
+                                <div style="margin-top: 1rem;">
+                                    <button class="btn download-btn"><i class="fas fa-download"></i> Download APK</button>
+                                    <button class="btn download-btn" style="background: var(--accent);"><i class="fas fa-download"></i> Download AAB</button>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.9rem;">Simpan informasi keystore dengan aman untuk update aplikasi di masa depan.</p>
+                            `;
+                            result.style.display = 'block';
+                            
+                            // Scroll to result
+                            result.scrollIntoView({ behavior: 'smooth' });
+                        }, 1000);
+                    }
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
