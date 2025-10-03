@@ -28,6 +28,9 @@
             --text-secondary: #495057;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             --transition: all 0.3s ease;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-secondary: linear-gradient(135deg, #7209b7 0%, #b5179e 100%);
+            --radius: 0.75rem;
         }
 
         .dark-mode {
@@ -62,6 +65,7 @@
             line-height: 1.6;
             font-family: 'Poppins', sans-serif;
             transition: background-color 0.3s ease;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, h4, h5 {
@@ -84,17 +88,25 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--gradient-primary);
         }
 
+        /* Header & Navigation */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
             color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode header {
+            background: rgba(30, 30, 30, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .header-content {
@@ -107,12 +119,23 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
+            color: var(--primary);
+        }
+
+        .dark-mode .logo {
+            color: var(--primary-light);
         }
 
         .logo i {
-            color: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
 
         nav ul {
@@ -122,7 +145,7 @@
         }
 
         nav a {
-            color: white;
+            color: var(--text-primary);
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
@@ -136,12 +159,12 @@
             height: 2px;
             bottom: -5px;
             left: 0;
-            background-color: var(--accent-light);
+            background-color: var(--accent);
             transition: var(--transition);
         }
 
         nav a:hover {
-            color: var(--accent-light);
+            color: var(--accent);
         }
 
         nav a:hover:after {
@@ -149,21 +172,51 @@
         }
 
         .theme-switch {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 50px;
             padding: 0.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
+            transition: var(--transition);
         }
 
         .theme-switch:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.1);
         }
 
+        .dark-mode .theme-switch {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode .theme-switch:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .mobile-menu:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .dark-mode .mobile-menu:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
         .hero {
             padding: 6rem 0;
             text-align: center;
@@ -179,14 +232,14 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
             margin-bottom: 1.5rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
             line-height: 1.2;
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 3vw, 1.3rem);
             max-width: 700px;
             margin: 0 auto 3rem;
             font-weight: 300;
@@ -241,6 +294,7 @@
             color: var(--primary);
         }
 
+        /* App Form */
         .app-form {
             background: var(--card-bg);
             border-radius: 20px;
@@ -358,14 +412,27 @@
             grid-column: 1 / -1;
         }
 
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+
         .submit-btn {
             width: 100%;
             padding: 1.2rem;
             font-size: 1.2rem;
             margin-top: 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: var(--gradient-primary);
         }
 
+        /* Features Section */
         .features {
             padding: 6rem 0;
             background: var(--light);
@@ -401,7 +468,7 @@
         .feature-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: var(--gradient-primary);
             color: white;
             border-radius: 20px;
             display: flex;
@@ -423,6 +490,7 @@
             font-size: 1.5rem;
         }
 
+        /* Progress & Result */
         .progress-container {
             display: none;
             margin-top: 3rem;
@@ -439,7 +507,7 @@
 
         .progress {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            background: var(--gradient-secondary);
             border-radius: 10px;
             width: 0%;
             transition: width 0.5s ease;
@@ -490,6 +558,10 @@
             text-align: left;
         }
 
+        .dark-mode .key-info {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         .key-info h4 {
             margin-bottom: 1rem;
             color: var(--primary);
@@ -502,6 +574,10 @@
             padding: 0.5rem;
             border-radius: 5px;
             word-break: break-all;
+        }
+
+        .dark-mode .key-info p {
+            background: rgba(255, 255, 255, 0.1);
         }
 
         /* About Section */
@@ -564,6 +640,7 @@
             box-shadow: var(--shadow);
         }
 
+        /* Footer */
         footer {
             background: var(--dark-alt);
             color: white;
@@ -606,74 +683,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .hero {
-                padding: 4rem 0;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 1rem;
-                padding: 0 1rem;
-            }
-            .btn {
-                width: 100%;
-                margin: 0.5rem 0;
-            }
-            .btn-outline {
-                margin-left: 0;
-            }
-            .header-content {
-                flex-direction: column;
-                gap: 1.2rem;
-            }
-            nav ul {
-                gap: 1.2rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-            .app-form {
-                padding: 2rem;
-                margin: -40px auto 3rem;
-            }
-            .form-title {
-                font-size: 1.8rem;
-            }
-            .form-control, .color-picker {
-                font-size: 0.9rem;
-            }
-            .file-upload {
-                padding: 1.5rem;
-            }
-            .preview img {
-                max-width: 80px;
-                max-height: 80px;
-            }
-            .about-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .about-image {
-                margin-top: 2rem;
-            }
-            .about-stats {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-            .footer-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .social-links {
-                justify-content: center;
-            }
-        }
-
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -687,6 +696,173 @@
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
         .delay-3 { animation-delay: 0.6s; }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .header-content {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .nav-container {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--card-bg);
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                z-index: 99;
+            }
+            
+            .nav-container.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+            }
+            
+            nav a {
+                display: block;
+                padding: 1rem;
+                border-radius: 8px;
+            }
+            
+            nav a:hover {
+                background: rgba(0, 0, 0, 0.05);
+            }
+            
+            .dark-mode nav a:hover {
+                background: rgba(255, 255, 255, 0.05);
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero {
+                padding: 4rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-form {
+                padding: 2rem;
+                margin: -40px auto 3rem;
+            }
+            
+            .form-title {
+                font-size: 1.8rem;
+            }
+            
+            .form-control, .color-picker {
+                font-size: 0.9rem;
+            }
+            
+            .file-upload {
+                padding: 1.5rem;
+            }
+            
+            .preview img {
+                max-width: 80px;
+                max-height: 80px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .about-image {
+                margin-top: 2rem;
+            }
+            
+            .about-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .features {
+                padding: 4rem 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .feature-card {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .app-form {
+                padding: 1.5rem;
+                margin: -20px auto 2rem;
+            }
+            
+            .features {
+                padding: 3rem 0;
+            }
+            
+            .about {
+                padding: 3rem 0;
+            }
+            
+            footer {
+                padding: 3rem 0 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -698,16 +874,21 @@
                     <i class="fas fa-mobile-alt"></i>
                     <span>AppMaker</span>
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="#create">Buat App</a></li>
-                        <li><a href="#features">Fitur</a></li>
-                        <li><a href="#about">Tentang</a></li>
-                    </ul>
-                </nav>
-                <div class="theme-switch" id="themeSwitch">
-                    <i class="fas fa-moon"></i>
+                <div class="nav-container" id="navContainer">
+                    <nav>
+                        <ul>
+                            <li><a href="#create">Buat App</a></li>
+                            <li><a href="#features">Fitur</a></li>
+                            <li><a href="#about">Tentang</a></li>
+                        </ul>
+                    </nav>
+                    <div class="theme-switch" id="themeSwitch">
+                        <i class="fas fa-moon"></i>
+                    </div>
                 </div>
+                <button class="mobile-menu" id="mobileMenu">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
@@ -716,8 +897,10 @@
         <div class="container hero-content">
             <h1 class="animated">Buat Aplikasi Web Anda dengan Mudah</h1>
             <p class="animated delay-1">Ubah website menjadi aplikasi Android dalam hitungan menit tanpa coding. Gratis dan mudah digunakan.</p>
-            <a href="#create" class="btn animated delay-2">Buat Sekarang</a>
-            <a href="#features" class="btn btn-outline animated delay-3">Pelajari Lebih Lanjut</a>
+            <div class="cta-buttons">
+                <a href="#create" class="btn animated delay-2">Buat Sekarang</a>
+                <a href="#features" class="btn btn-outline animated delay-3">Pelajari Lebih Lanjut</a>
+            </div>
         </div>
     </section>
 
@@ -772,7 +955,7 @@
                         <div class="file-upload" id="splashIconUpload">
                             <i class="fas fa-cloud-upload-alt"></i>
                             <p>Klik untuk upload splash screen</p>
-                            <input type="file" id="splashIcon" accept="image/png" required>
+                            <input type="file" id="splashIcon" accept="image/png">
                         </div>
                         <div class="preview">
                             <img id="splashIconPreview" src="#" alt="Preview Splash" style="display: none;">
@@ -783,6 +966,13 @@
                             <input type="checkbox" id="enableShowToolBar" checked>
                             <span class="checkmark"></span>
                             Tampilkan Toolbar
+                        </label>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="enableSplashScreen" checked>
+                            <span class="checkmark"></span>
+                            Tampilkan Splash Screen
                         </label>
                     </div>
                 </div>
@@ -1049,6 +1239,26 @@
         };
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu functionality
+            const mobileMenu = document.getElementById('mobileMenu');
+            const navContainer = document.getElementById('navContainer');
+            
+            mobileMenu.addEventListener('click', function() {
+                navContainer.classList.toggle('active');
+                this.querySelector('i').classList.toggle('fa-bars');
+                this.querySelector('i').classList.toggle('fa-times');
+            });
+            
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', function() {
+                    navContainer.classList.remove('active');
+                    mobileMenu.querySelector('i').classList.add('fa-bars');
+                    mobileMenu.querySelector('i').classList.remove('fa-times');
+                });
+            });
+            
+            // Theme switch functionality
             const themeSwitch = document.getElementById('themeSwitch');
             const themeIcon = themeSwitch.querySelector('i');
             if (localStorage.getItem('theme') === 'dark' || 
@@ -1069,26 +1279,35 @@
                     themeIcon.classList.add('fa-moon');
                 }
             });
+            
+            // Color picker functionality
             const toolbarColor = document.getElementById('toolbarColor');
             const toolbarColorText = document.getElementById('toolbarColorText');
             const toolbarTitleColor = document.getElementById('toolbarTitleColor');
             const toolbarTitleColorText = document.getElementById('toolbarTitleColorText');
+            
             toolbarColor.addEventListener('input', function() {
                 toolbarColorText.value = this.value;
             });
+            
             toolbarColorText.addEventListener('input', function() {
                 toolbarColor.value = this.value;
             });
+            
             toolbarTitleColor.addEventListener('input', function() {
                 toolbarTitleColorText.value = this.value;
             });
+            
             toolbarTitleColorText.addEventListener('input', function() {
                 toolbarTitleColor.value = this.value;
             });
+            
+            // File upload preview functionality
             const appIcon = document.getElementById('appIcon');
             const appIconPreview = document.getElementById('appIconPreview');
             const splashIcon = document.getElementById('splashIcon');
             const splashIconPreview = document.getElementById('splashIconPreview');
+            
             appIcon.addEventListener('change', function() {
                 const file = this.files[0];
                 if (file) {
@@ -1100,6 +1319,7 @@
                     reader.readAsDataURL(file);
                 }
             });
+            
             splashIcon.addEventListener('change', function() {
                 const file = this.files[0];
                 if (file) {
@@ -1111,15 +1331,19 @@
                     reader.readAsDataURL(file);
                 }
             });
+            
+            // Form submission
             const form = document.getElementById('appForm');
             const progressContainer = document.getElementById('progressContainer');
             const progress = document.getElementById('progress');
             const progressText = document.getElementById('progressText');
             const result = document.getElementById('result');
+            
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
                 progressContainer.style.display = 'block';
                 result.style.display = 'none';
+                
                 const url = document.getElementById('url').value;
                 const email = document.getElementById('email').value;
                 const appName = document.getElementById('appName').value;
@@ -1127,23 +1351,35 @@
                 const toolbarColor = document.getElementById('toolbarColor').value;
                 const toolbarTitleColor = document.getElementById('toolbarTitleColor').value;
                 const enableShowToolBar = document.getElementById('enableShowToolBar').checked;
+                const enableSplashScreen = document.getElementById('enableSplashScreen').checked;
                 const appIconFile = document.getElementById('appIcon').files[0];
                 const splashIconFile = document.getElementById('splashIcon').files[0];
+                
                 try {
                     progress.style.width = '10%';
                     progressText.textContent = 'Membuat aplikasi...';
+                    
                     const createResult = await appmakerAPI.createApp(url, email);
                     const appId = createResult.body.appId;
+                    
                     progress.style.width = '30%';
                     progressText.textContent = 'Mengupload icon aplikasi...';
+                    
                     const iconUpload = await appmakerAPI.uploadFile(appIconFile, appId);
                     const appIconUrl = iconUpload.cloudStoragePublicUrl;
+                    
                     progress.style.width = '50%';
                     progressText.textContent = 'Mengupload splash screen...';
-                    const splashUpload = await appmakerAPI.uploadFile(splashIconFile, appId);
-                    const splashIconUrl = splashUpload.cloudStoragePublicUrl;
+                    
+                    let splashIconUrl = '';
+                    if (enableSplashScreen && splashIconFile) {
+                        const splashUpload = await appmakerAPI.uploadFile(splashIconFile, appId);
+                        splashIconUrl = splashUpload.cloudStoragePublicUrl;
+                    }
+                    
                     progress.style.width = '70%';
                     progressText.textContent = 'Membangun aplikasi...';
+                    
                     const appConfig = {
                         appId: appId,
                         appIcon: appIconUrl,
@@ -1155,32 +1391,42 @@
                         splashIcon: splashIconUrl,
                         packageName: packageName
                     };
+                    
                     const buildResult = await appmakerAPI.buildApp(appConfig);
+                    
                     progress.style.width = '80%';
                     progressText.textContent = 'Memeriksa status build...';
+                    
                     let status;
                     let attempts = 0;
                     const maxAttempts = 30;
+                    
                     do {
                         await new Promise(resolve => setTimeout(resolve, 10000));
                         status = await appmakerAPI.checkStatus(appId);
                         attempts++;
                         progress.style.width = 80 + (attempts * 0.66) + '%';
                         progressText.textContent = `Memeriksa status build... (${attempts}/${maxAttempts})`;
+                        
                         if (status.body.status === 'success') {
                             break;
                         } else if (status.body.status === 'failed') {
                             throw new Error('App build failed');
                         }
                     } while (attempts < maxAttempts && status.body.status !== 'success');
+                    
                     if (attempts >= maxAttempts) {
                         throw new Error('Build timeout - exceeded maximum wait time');
                     }
+                    
                     progress.style.width = '95%';
                     progressText.textContent = 'Mendapatkan informasi download...';
+                    
                     const downloadInfo = await appmakerAPI.getDownloadUrl(appId);
+                    
                     progress.style.width = '100%';
                     progressText.textContent = 'Selesai!';
+                    
                     setTimeout(() => {
                         result.className = 'result success';
                         result.innerHTML = `
@@ -1210,6 +1456,7 @@
                         result.style.display = 'block';
                         result.scrollIntoView({ behavior: 'smooth' });
                     }, 1000);
+                    
                 } catch (error) {
                     console.error('Error in app creation:', error);
                     progressContainer.style.display = 'none';
@@ -1222,10 +1469,27 @@
                     result.style.display = 'block';
                 }
             });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Initialize animations
             const animatedElements = document.querySelectorAll('.animated');
             animatedElements.forEach(el => {
                 el.style.opacity = '0';
             });
+            
             setTimeout(() => {
                 animatedElements.forEach(el => {
                     el.style.opacity = '1';
